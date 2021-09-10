@@ -2,27 +2,56 @@
 @section('title', 'Comics')
 
 @section('content')
-<div class="container">
-    <div class="row row-cols-3 g-3 p-3">
-        @foreach ($comics as $item)
-        <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ $item->thumb }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                    <h5 class="card-title">{{ $item->title }}</h5>
-                    <p class="card-text">{{ $item->description }}</p>
-                    {{-- <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ $item->series }}</li>
-                        <li class="list-group-item">{{ $item->sale_date }}</li>
-                        <li class="list-group-item">{{ $item->type }}</li>
-                        <li class="list-group-item">{{ $item->price }}</li>
-                        </ul> --}}
-                    <a href="{{ route('comics.show', $item->id) }}" class="btn btn-primary">Dettagli</a>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+
+<p>
+    @if (session('update'))
+    <div class="alert alert-success">
+      {{ session('update') }}
     </div>
-</div>
-    
+    @endif
+    @if (session('delete'))
+    <div class="alert alert-success">
+      {{ session('delete') }}
+    </div>
+    @endif
+  </p>
+
+<table class="table">
+    <thead>
+        <tr>
+        <th scope="col">Codice Prodotto</th>
+        <th scope="col">Serie</th>
+        <th scope="col">Data Vendita</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Prezzo</th>
+        <th scope="col">Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($comics as $item)                  
+        <tr>
+            <th scope="row">{{ $item->id }} </th>
+            <td>{{ $item->title }}</td>
+            <td>{{ $item->series }}</td>
+            <td>{{ $item->sale_date }}</td>
+            <td>{{ $item->type }}</td>
+            <td>{{ $item->price }}</td>
+            <td>
+                <a href="{{ route('comics.show', $item->id) }} " class="btn btn-primary">Show</a>
+                <a href="{{ route('comics.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                <form action="{{ route ('comics.destroy',  $item->id) }} " method="post"  class="d-inline-block">
+                    @csrf
+                    @method('DELETE')
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                </form>
+            </td>
+        </tr>
+        @endforeach          
+    </tbody>
+    </table>
+
+{{-- <div>
+    {{ $comics->links() }}
+</div> --}}
+
 @endsection

@@ -26,7 +26,7 @@ class ComicController extends Controller
      */
     public function create()
     {
-        //
+        return view('comics.create');   
     }
 
     /**
@@ -37,7 +37,14 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newComic = new Comic();
+        $newComic->fill($data);
+        $newComic->save();
+
+        return redirect()->route('comics.index');
+
     }
 
     /**
@@ -46,10 +53,16 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    // metodo ::find
+    // public function show($id)
+    // {
+    //     $item = Comic::find($id);
+    //     return view('comics.show', compact('item'));
+    // }
+
+    public function show(Comic $comic)
     {
-        $item = Comic::find($id);
-        return view('comics.show', compact('item'));
+        return view('comics.show', compact('comic'));
     }
 
     /**
@@ -58,9 +71,9 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comic $comic)
     {
-        //
+        return view('comics.edit', compact('comic'));
     }
 
     /**
@@ -70,9 +83,13 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comic $comic)
     {
-        //
+        $data = $request->all();
+
+        $comic->update($data);
+
+        return redirect()->route('comics.index')->with('update', 'Hai modificato il fumetto n° ' .$comic->id);
     }
 
     /**
@@ -81,8 +98,10 @@ class ComicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        $comic->delete();
+
+        return redirect()->route('comics.index')->with('delete', 'Hai eliminato il fumetto n° ' .$comic->id);
     }
 }
