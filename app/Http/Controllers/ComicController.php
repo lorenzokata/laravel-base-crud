@@ -89,7 +89,7 @@ class ComicController extends Controller
 
         $comic->update($data);
 
-        return redirect()->route('comics.index')->with('update', 'Hai modificato il fumetto n° ' .$comic->id);
+        return redirect()->route('comics.index')->with('edit', 'Hai modificato il fumetto n° ' .$comic->id);
     }
 
     /**

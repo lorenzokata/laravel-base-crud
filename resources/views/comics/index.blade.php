@@ -4,13 +4,16 @@
 @section('content')
 
 <p>
-    @if (session('update'))
+    {{-- sssione update --}}
+    @if (session('edit'))
     <div class="alert alert-success">
-      {{ session('update') }}
+      {{ session('edit') }}
     </div>
     @endif
+
+    {{-- sessione delete --}}
     @if (session('delete'))
-    <div class="alert alert-success">
+    <div class="alert alert-danger">
       {{ session('delete') }}
     </div>
     @endif
