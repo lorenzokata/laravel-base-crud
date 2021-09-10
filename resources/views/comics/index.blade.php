@@ -5,9 +5,9 @@
 
 <p>
     {{-- sssione update --}}
-    @if (session('edit'))
+    @if (session('update'))
     <div class="alert alert-success">
-      {{ session('edit') }}
+      {{ session('update') }}
     </div>
     @endif
 
